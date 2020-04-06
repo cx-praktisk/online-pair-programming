@@ -55,3 +55,4 @@ TODO: Work in progress
 * Should have some on setting up Live Share.
 * Should have something on how to do pair programming.
 * Strip back implementation and tests to a good starting point for participants.
+* Everyone will probably want to create their own [hangouts-sessions](https://meet.google.com/) to talk while they code. This should ble documented as well.
