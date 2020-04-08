@@ -10,7 +10,9 @@ TODO: Work in progress
 * Document how to use the console application.
 * Should have some on setting up Live Share.
 * Should have something on how to do pair programming.
-* Strip back implementation and tests to a good starting point for participants.
+    - Write code in _FindWordChains.cs_ and write tests in _WhenPairProgramming.cs_.
+    - Start by making `DistanceTo(...)` work.
+    - Switch when going from writing a test to making it pass.
 * Everyone will probably want to create their own [hangouts-sessions](https://meet.google.com/) to talk while they code. This should ble documented as well.
 
 Installation Guide
