@@ -5,6 +5,9 @@ _Workshop on online pair programming, using VS Code Live Share._
 TODO: Work in progress
 ----------------------
 * Should have some on general VS Code and C# usage.
+* Add using System.Linq and System.Collections.Generic to files.
+* Think a bit more on what to present at start of session.
+* Move tests using distance != 1 to separate test.
 * Document how to use the test project.
     - Focus on doing this inside of VS Code.
 * Document how to use the console application.
