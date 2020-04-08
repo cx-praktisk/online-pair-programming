@@ -35,20 +35,15 @@ Building, running and testing
 ### Testing
 
 ```shell
-02:19 $ dotnet test
+$ WordChain.Test> dotnet test
+
 ...
 
-Starting test execution, please wait...
-
-A total of 1 test files matched the specified pattern.
-Found word chain from ABER to ABBA!
-  Chain length: 33
-  Word chain: ABER -> AGER -> AGAR -> AFAR -> AVAR -> AVAL -> ANAL -> ANGL -> ANGA -> AGGA -> AGNA -> AGNE -> AKNE -> AKKE -> AKKA -> AKSA -> AKSE -> AKME -> AKRE -> ACRE -> AURE -> AUKE -> ALKE -> ALGE -> ALGI -> ANGI -> ANGE -> ANDE -> ANDA -> ANKA -> ALKA -> ALBA -> ABBA
-
 Test Run Successful.
-Total tests: 11
-     Passed: 11
- Total time: 7.5956 Seconds
+Total tests: 6
+     Passed: 3
+    Skipped: 3
+ Total time: 1.2184 Seconds
 ```
 
 ### Running
