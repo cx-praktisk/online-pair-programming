@@ -1,24 +1,42 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using CommandLine;
 
 namespace WordChains
 {
-    class Program
+    public class Program
     {
-        private static int ConvertHistoryFile(CommandLineOptions options)
-        {
-            var actual = options.Dictionary.ChainWithDistanceTo(options.FromWord, options.ToWord, options.Distance);
-            var chainLength = actual.Split("->").Count();
-
-            Console.WriteLine($"\nFound chain!\n Chain length: {chainLength}\n Chain: {actual}\n");
-
-            return 0;
-        }
-
         public static int Main(string[] args) =>
             Parser.Default
                 .ParseArguments<CommandLineOptions>(args)
-                .MapResult(ConvertHistoryFile, errs => 1);
+                .MapResult(FindWordChain, errs => 1);
+
+        public static int FindWordChain(CommandLineOptions options)
+        {
+            var wordChain = options.Dictionary
+                .FindWordChain(
+                    fromWord: options.FromWord,
+                    toWord: options.ToWord,
+                    withDistance: options.Distance);
+
+            return DisplayResult(options, wordChain);
+        }
+
+        public static int DisplayResult(CommandLineOptions options, IEnumerable<string> wordChain)
+        {
+            if (wordChain == null)
+            {
+                Console.WriteLine($"No word chain from { options.FromWord } to { options.ToWord } found :-(");
+
+                return -1;
+            }
+
+            Console.WriteLine($"Found word chain from { options.FromWord } to { options.ToWord }!");
+            Console.WriteLine($"  Chain length: { wordChain.Count() }");
+            Console.WriteLine($"  Word chain: { wordChain.ToDisplayString() }");
+
+            return 0;
+        }
     }
 }

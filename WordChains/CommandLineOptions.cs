@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using CommandLine;
 
@@ -23,11 +22,12 @@ namespace WordChains
 
         public string ToWord => CleanWord(To);
 
-        public IEnumerable<string> Dictionary =>
+        public string[] Dictionary =>
             File
                 .ReadLines(DictionaryFile)
+                .Where(word => !string.IsNullOrWhiteSpace(word))
                 .Select(word => CleanWord(word))
-                .Where(word => word != string.Empty);
+                .ToArray();
 
         private string CleanWord(string word) => word.ToUpper().Trim();
     }

@@ -2,6 +2,17 @@ Online pair programming
 =======================
 _Workshop on online pair programming, using VS Code Live Share._
 
+TODO: Work in progress
+----------------------
+* Should have some on general VS Code and C# usage.
+* Document how to use the test project.
+    - Focus on doing this inside of VS Code.
+* Document how to use the console application.
+* Should have some on setting up Live Share.
+* Should have something on how to do pair programming.
+* Strip back implementation and tests to a good starting point for participants.
+* Everyone will probably want to create their own [hangouts-sessions](https://meet.google.com/) to talk while they code. This should ble documented as well.
+
 Installation Guide
 ------------------
 _To partake in the workshop, you'll need to have the .NET Core 3.1 SDK, and VS Code with the C# and Live Share extensions._
@@ -17,6 +28,67 @@ C# can be edited in a number of different editors and IDE's, but since we'll be 
 To make it a little bit easier to work with C#, you also want to get the [C# extension for VS Code](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csharp).
 
 Finally you need to get the [Live Share extension for VS Code](https://marketplace.visualstudio.com/items?itemName=MS-vsliveshare.vsliveshare). In order to use Live Share, you'll also need a GitHub or Microsoft account. If you don't have either, it's quite easy to [create a new GitHub account](https://github.com/join).
+
+Building, running and testing
+-----------------------------
+
+### Testing
+
+```shell
+02:19 $ dotnet test
+...
+
+Starting test execution, please wait...
+
+A total of 1 test files matched the specified pattern.
+Found word chain from ABER to ABBA!
+  Chain length: 33
+  Word chain: ABER -> AGER -> AGAR -> AFAR -> AVAR -> AVAL -> ANAL -> ANGL -> ANGA -> AGGA -> AGNA -> AGNE -> AKNE -> AKKE -> AKKA -> AKSA -> AKSE -> AKME -> AKRE -> ACRE -> AURE -> AUKE -> ALKE -> ALGE -> ALGI -> ANGI -> ANGE -> ANDE -> ANDA -> ANKA -> ALKA -> ALBA -> ABBA
+
+Test Run Successful.
+Total tests: 11
+     Passed: 11
+ Total time: 7.5956 Seconds
+```
+
+### Running
+
+```shell
+$ WordChain> dotnet run
+WordChains 1.0.0
+Copyright (C) 2020 WordChains
+
+ERROR(S):
+  A required value not bound to option name is missing.
+
+  -f, --from                  (Default: ABER) The word you want to start the word chain with.
+
+  -t, --to                    (Default: ABBA) The word you want to end the word chain with.
+
+  -d, --distance              (Default: 1) The distance, i.e. the number of letters that differ, between
+                              each word in the word chain.
+
+  --help                      Display this help screen.
+
+  --version                   Display version information.
+
+  dictionary file (pos. 0)    Required. A dictionary file, containing a collection of words, with one
+                              single word on every line.
+```
+
+```shell
+$ WordChain> dotnet run -- ../norwegian-scrabble-federation-dictionary.txt -f abba -t aber
+Found word chain from ABBA to ABER!
+  Chain length: 33
+  Word chain: ABBA -> ALBA -> ALFA -> ALKA -> AKKA -> AKKE -> AKME -> AKNE -> AGNE -> AGNA -> AGGA -> ANGA -> ANDA -> ANDE -> ANGE -> ALGE -> ALGI -> ANGI -> ANGL -> ANAL -> APAL -> ASAL -> ATAL -> AVAL -> AVAR -> AFAR -> AGAR -> AGAM -> AGAT -> AGET -> AGEN -> AGER -> ABER
+```
+
+```shell
+$ WordChain> dotnet run -- ../norwegian-scrabble-federation-dictionary.txt -f parkett -t agitere -d 3
+Found word chain from PARKETT to AGITERE!
+  Chain length: 12
+  Word chain: PARKETT -> BAKKETE -> ANKRETE -> AFARENE -> ACIDENE -> ADAMENE -> ACYLENE -> ADJØENE -> AETAENE -> ADOBENE -> AGAMENE -> AGITERE
+```
 
 Word Chains
 -----------
@@ -45,14 +117,3 @@ Some problems that we might want to give people a test for.
 ### When you have a working solution
 * Can you find the shortest chain between the words?
 * Can you make the code faster?
-
-TODO: Work in progress
-----------------------
-* Should have some on general VS Code and C# usage.
-* Document how to use the test project.
-    - Focus on doing this inside of VS Code.
-* Document how to use the console application.
-* Should have some on setting up Live Share.
-* Should have something on how to do pair programming.
-* Strip back implementation and tests to a good starting point for participants.
-* Everyone will probably want to create their own [hangouts-sessions](https://meet.google.com/) to talk while they code. This should ble documented as well.
