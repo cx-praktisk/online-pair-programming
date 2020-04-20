@@ -32,15 +32,13 @@ namespace WordChains.Test
 
         // You can also skip theories. Again you can execute the theory be changing the attribute to [Theory]
         [Theory(Skip="this until you think you've got a complete solution")]
-        [InlineData("ABER", "ABBA", 1)]
-        [InlineData("ENDER", "AKKAR", 1)]
-        [InlineData("TENKE", "BANJO", 1)]
-        [InlineData("SOMMER", "BOKMÅL", 1)]
-        [InlineData("PARKETT", "AGITERE", 3)]
-        [InlineData("ENDETARMSÅPNINGEN", "HELHETSTENKNINGER", 7)]
-        public void ShouldFindWordChain(string fromWord, string toWord, int withDistance) =>
+        [InlineData("ABER", "ABBA")]
+        [InlineData("ENDER", "AKKAR")]
+        [InlineData("TENKE", "BANJO")]
+        [InlineData("SOMMER", "BOKMÅL")]
+        public void ShouldFindWordChainWithOneLetterDistance(string fromWord, string toWord) =>
             _dictionary
-                .FindWordChain(fromWord, toWord, withDistance)
+                .FindWordChain(fromWord, toWord, withDistance: 1)
                 .Should()
                 .NotBeEmpty(because: $"There should exist a word chain from { fromWord } to { toWord }");
 
@@ -51,5 +49,15 @@ namespace WordChains.Test
                 .FindWordChain(fromWord, toWord, withDistance)
                 .Should()
                 .BeNull(because: $"There should not exist a word chain from { fromWord } to { toWord }");
+
+        [Theory(Skip = "this until you have implemented variable distance between words")]
+        [InlineData("SOMMER", "BOKMÅL", 1)]
+        [InlineData("PARKETT", "AGITERE", 3)]
+        [InlineData("ENDETARMSÅPNINGEN", "HELHETSTENKNINGER", 7)]
+        public void ShouldFindWordChain(string fromWord, string toWord, int withDistance) =>
+            _dictionary
+                .FindWordChain(fromWord, toWord, withDistance)
+                .Should()
+                .NotBeEmpty(because: $"There should exist a word chain from { fromWord } to { toWord }");
     }
 }
