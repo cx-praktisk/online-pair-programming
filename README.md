@@ -2,21 +2,6 @@ Online pair programming
 =======================
 _Workshop on online pair programming, using VS Code Live Share._
 
-TODO: Work in progress
-----------------------
-* Should have some on general VS Code and C# usage.
-* Add using System.Linq and System.Collections.Generic to files.
-* Think a bit more on what to present at start of session.
-* Move tests using distance != 1 to separate test.
-* Document how to use the test project.
-    - Focus on doing this inside of VS Code.
-* Document how to use the console application.
-* Should have some on setting up Live Share.
-* Should have something on how to do pair programming.
-    - Write code in _FindWordChains.cs_ and write tests in _WhenPairProgramming.cs_.
-    - Start by making `DistanceTo(...)` work.
-    - Switch when going from writing a test to making it pass.
-* Everyone will probably want to create their own [hangouts-sessions](https://meet.google.com/) to talk while they code. This should ble documented as well.
 
 Installation Guide
 ------------------
@@ -34,10 +19,53 @@ To make it a little bit easier to work with C#, you also want to get the [C# ext
 
 Finally you need to get the [Live Share extension for VS Code](https://marketplace.visualstudio.com/items?itemName=MS-vsliveshare.vsliveshare). In order to use Live Share, you'll also need a GitHub or Microsoft account. If you don't have either, it's quite easy to [create a new GitHub account](https://github.com/join).
 
-Building, running and testing
------------------------------
+
+The Word Chains Puzzle
+----------------------
+_The Word Chains Puzzle is adapted from [codekata.com](http://codekata.com/kata/kata19-word-chains/)._
+
+There’s a type of puzzle where the challenge is to build a chain of words, starting with one particular word and ending with another. Successive entries in the chain must all be real words present in a dictionary, and each can differ from the previous word by just one letter. For example, you can get from "CAT" to "DOG" using the following chain:
+
+```
+CAT -> COT -> COG -> DOG
+```
+
+You can get from "LEAD" to "GOLD" in four steps:
+
+```
+LEAD -> LOAD -> GOAD -> GOLD
+```
+
+In addition you can get from "RUBY" to "CODE" in six steps:
+
+```
+RUBY -> RUBS -> ROBS -> RODS -> RODE -> CODE
+```
+
+The objective of this puzzle is to write a function that finds a word chain between two words, using words from a dictionary.
+
+### Where should we start?
+It's a good idea to start by writing a function that finds the distance between two words. I.e. the distance between "ABBA" and "ALBA" is 1, since we have to change one letter to turn "ABBA" into "ALBA".
+
+[FindWordChains.cs](WordChains/FindWordChains.cs) declares the function `int DistanceTo(this string word, string anotherWord)`, that can be used as a starting point. A unfinished set of tests for this function is supplied in [WhenPairProgramming.cs](WordChains.Test/WhenPairProgramming.cs).
+
+### Where should we end up?
+You might need more supporting functions than just `DistanceTo(...)`, but in the end you should be able to implement `IEnumerable<string> FindWordChain(this IEnumerable<string> dictionary, string fromWord, string toWord, int withDistance = 1)` in [FindWordChains.cs](WordChains/FindWordChains.cs). When you think you got the implementation working, you ca try to run the verification tests in [WhenUsingNorwegianScrabbleFederationDictionary.cs](WordChains.Test/WhenUsingNorwegianScrabbleFederationDictionary.cs). Just remove the "skip" options as described in the tests.
+
+It's totally fine to just skip handling the optional `withDistance` parameter until you have a working solution for `withDistance = 1`.
+
+### What should we do if we have additional time?
+For added programming fun, try to return the shortest word chain that solves each puzzle. You can also have a look at optimizing your code, so you can find word chains faster.
+
+
+Testing and running WordChains
+------------------------------
+Testing and running WordChains can be performed from the [integrated terminal](https://code.visualstudio.com/docs/editor/integrated-terminal) in VS Code. To open it, start by opening the [command palette](https://code.visualstudio.com/docs/getstarted/tips-and-tricks#_command-palette) by pressing `Ctrl+Shift+P`. Search for "integrated terminal" and select "View: Toggle Integrated Terminal".
+
+![Integrated Terminal](Images/integrated-terminal.png)
 
 ### Testing
+From the integrated terminal, navigate to the folder `/WordChains.Test`, and run `dotnet test`. This will run all tests in the test-project once.
 
 ```shell
 $ WordChain.Test> dotnet test
@@ -51,7 +79,27 @@ Total tests: 6
  Total time: 1.2184 Seconds
 ```
 
-### Running
+If you wish to re-run tests whenever a file is saved, you can use `dotnet watch test`.
+
+```shell
+$ WordChain.Test> dotnet watch test
+watch : Started
+
+...
+
+Test Run Successful.
+Total tests: 7
+     Passed: 3
+    Skipped: 4
+ Total time: 1.2476 Seconds
+watch : Exited
+watch : Waiting for a file to change before restarting dotnet...
+```
+
+Press `Ctrl+C` if you want to stop watching files and running tests.
+
+### Running the console application
+The WordChains application, is a console application that can be executed from the integrated terminal. Navigate to the `/WordChains` folder, and run `dotnet run`. This will launch the application, and display information about the different options and parameters used.
 
 ```shell
 $ WordChain> dotnet run
@@ -76,6 +124,8 @@ ERROR(S):
                               single word on every line.
 ```
 
+The WordChains applications requires a dictionary file, and a _from_ and _to_ word to find a chain between. To supply these arguments, we need to add `--` after the `dotnet run` command. Then we can supply a path to the dictionary file, and the `-f` and `-t` options.
+
 ```shell
 $ WordChain> dotnet run -- ../norwegian-scrabble-federation-dictionary.txt -f abba -t aber
 Found word chain from ABBA to ABER!
@@ -83,37 +133,22 @@ Found word chain from ABBA to ABER!
   Word chain: ABBA -> ALBA -> ALFA -> ALKA -> AKKA -> AKKE -> AKME -> AKNE -> AGNE -> AGNA -> AGGA -> ANGA -> ANDA -> ANDE -> ANGE -> ALGE -> ALGI -> ANGI -> ANGL -> ANAL -> APAL -> ASAL -> ATAL -> AVAL -> AVAR -> AFAR -> AGAR -> AGAM -> AGAT -> AGET -> AGEN -> AGER -> ABER
 ```
 
-```shell
-$ WordChain> dotnet run -- ../norwegian-scrabble-federation-dictionary.txt -f parkett -t agitere -d 3
-Found word chain from PARKETT to AGITERE!
-  Chain length: 12
-  Word chain: PARKETT -> BAKKETE -> ANKRETE -> AFARENE -> ACIDENE -> ADAMENE -> ACYLENE -> ADJØENE -> AETAENE -> ADOBENE -> AGAMENE -> AGITERE
-```
+_NB: When starting out, you wont be able to find any word chains using the console application. This is because we haven't implemented any code for finding word chains yet._
 
-Word Chains
------------
-_Description borrowed from [http://codekata.com/](http://codekata.com/kata/kata19-word-chains/)._
 
-There’s a type of puzzle where the challenge is to build a chain of words, starting with one particular word and ending with another. Successive entries in the chain must all be real words, and each can differ from the previous word by just one letter. For example, you can get from "CAT" to "DOG" using the following chain.
+Tips on collaborating online
+----------------------------
 
-```
-CAT -> COT -> COG -> DOG
-```
+### Starting a Live Share session
+![Start collaboration session](Images/start-collaboration-session.png)
 
-The objective of this kata is to write a program that accepts start and end words and, using words from the dictionary, builds a word chain between them. For added programming fun, return the shortest word chain that solves each puzzle. For example, you can turn "LEAD" into "GOLD" in four steps (LEAD, LOAD, GOAD, GOLD), and "RUBY" into "CODE" in six steps (RUBY, RUBS, ROBS, RODS, RODE, CODE).
+1. Press the Live Share icon to the left or right in VS Code.
+2. Choose "Start collaboration session".
+3. Send the link to the collaboration session to your programming partner.
 
-Once your code works, try timing it. Does it take less than a second for the above examples given a decent-sized word list? And is the timing the same forwards and backwards (so "LEAD" into "GOLD" takes the same time as "GOLD" into "LEAD")?
+### How to create a Hangouts Meet
+![Create Hangouts Meet](Images/create-hangouts-meet.png)
 
-### Where should you start?
-It's a good idea to start with creating a function that finds the distance between two words. I.e. (ABBA, ALBA) -> 1.
-
-Then you might want to find all words with a given distance in a sequence of words. I.e. (ABBA, [ALBA, SALT, KATT, ABVA], 1) -> [ALBA, ABVA], since both ALBA and ABVA is a single letter apart from ABBA.
-
-Find a chain between two words in the word-list. I.e. (ABBA, [ALBA, SALT, KATT, ABVA]) -> ABBA => ALBA.
-
-Some problems that we might want to give people a test for.
-* Cycles: You might end up just going between a couple of words.
-
-### When you have a working solution
-* Can you find the shortest chain between the words?
-* Can you make the code faster?
+1. Go to [meet.google.com](https://meet.google.com/).
+2. Choose "Join or start a meeting". _If you don't see this option, make sure you're logged on with your Computas GSuite user (i.e. foo@computas.com)_
+3. Follow the instructions given. When the meeting is ready, copy the address from the address bar, and share it whit your programming partner.
