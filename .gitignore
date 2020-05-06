@@ -1,3 +1,5 @@
 # .NET Core build output
 bin/
 obj/
+.fake
+.ionide

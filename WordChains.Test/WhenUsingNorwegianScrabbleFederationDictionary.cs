@@ -16,7 +16,7 @@ namespace WordChains.Test
 
         // You can skip facts, by including a Skip parameter to the [Fact(...)] attribute.
         // To start executing a skipped fact, you simply change the attribute back to [Fact].
-        [Fact(Skip="this until you want to test spesific words against the scrabble dictionary")]
+        [Fact(Skip = "This now")]
         public void ShouldFindSpecificWordChainAndDisplayResult()
         {
             var options = new CommandLineOptions
@@ -31,7 +31,7 @@ namespace WordChains.Test
         }
 
         // You can also skip theories. Again you can execute the theory be changing the attribute to [Theory]
-        [Theory(Skip="this until you think you've got a complete solution")]
+        [Theory]
         [InlineData("ABER", "ABBA")]
         [InlineData("ENDER", "AKKAR")]
         [InlineData("TENKE", "BANJO")]
@@ -40,7 +40,7 @@ namespace WordChains.Test
             _dictionary
                 .FindWordChain(fromWord, toWord, withDistance: 1)
                 .Should()
-                .NotBeEmpty(because: $"There should exist a word chain from { fromWord } to { toWord }");
+                .NotBeEmpty(because: $"There should exist a word chain from { fromWord } to { toWord }");
 
         [Theory(Skip = "this until you think you've got a complete solution")]
         [InlineData("OVERINGENIØRENE", "OLIGARKISTSKHET", 1)]
