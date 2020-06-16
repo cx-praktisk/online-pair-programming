@@ -152,3 +152,34 @@ Tips on collaborating online
 1. Go to [meet.google.com](https://meet.google.com/).
 2. Choose "Join or start a meeting". _If you don't see this option, make sure you're logged on with your Computas GSuite user (i.e. foo@computas.com)_
 3. Follow the instructions given. When the meeting is ready, copy the address from the address bar, and share it whit your programming partner.
+
+
+Some C# Tips
+------------
+_Below is some sample code, illustrating a bit of Linq, and how you migth turn a string into an array of letters. Have a loot at the [C# Programming Guide](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/) for more tips._
+
+```csharp
+using System;
+using System.Linq;
+					
+public class Program
+{
+	public static void Main()
+	{
+		var numbers = new int[] { 1, 2, 3, 4, 5, 6 };
+
+		var newNumbers = numbers;
+		// var newNumbers = numbers.Where(n => n > 3);
+		// var newNumbers = numbers.Select(n => n + 2);
+		
+		// var otherNumbers = new int[] { 1, 2, 3 };
+		// var newNumbers = numbers.Zip(otherNumbers, (n, m) => n + m);
+
+		Console.WriteLine($"The new numbers are: {string.Join(", ", newNumbers)}");
+		
+		// var letters = "Hei igjen alle sammen".ToCharArray();
+		// Console.WriteLine($"The letters are: {string.Join(", ", letters)}");
+	}
+}
+```
+
